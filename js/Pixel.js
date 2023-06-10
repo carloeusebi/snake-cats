@@ -33,4 +33,8 @@ export class Pixel {
     isFood() {
         return this.node.classList.contains('food');
     }
+
+    clearAll() {
+        this.node.className = 'pixel';
+    }
 }

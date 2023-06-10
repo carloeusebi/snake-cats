@@ -4,24 +4,31 @@ export class Snake {
 
     snake = [];
     hasEaten = false;
+    nextPixel;
 
-    constructor(newHead) {
+    constructor(head) {
+        this.snake.push(pixels[head.x][head.y]);
+        this.head().addToSnake();
+    }
 
-        this.snake.push(pixels[newHead.x][newHead.y]);
-        this.snake[0].addToSnake();
 
-        // grow
+    grow(wantedLength) {
         do {
             const snake = this;
-
             let x = snake.tail().x;
             let y = snake.tail().y;
 
-            if (y === 49) y = -1;
+            if (x === 49) x = -1;
 
             this.snake.push(pixels[x + 1][y]);
             snake.tail().addToSnake();
-        } while (this.snake.length < 5);
+
+        } while (this.snake.length < wantedLength);
+    }
+
+
+    head() {
+        return this.snake[0];
     }
 
 
@@ -29,72 +36,67 @@ export class Snake {
         return this.snake[this.snake.length - 1];
     }
 
-    moveUp() {
-        const snake = this.snake;
 
-        let x = snake[0].x;
-        let y = snake[0].y;
+    lookUp() {
+        let x = this.head().x;
+        let y = this.head().y;
 
         if (x === 0) x = 50;
 
-        const newPixel = pixels[x - 1][y];
+        this.nextPixel = pixels[x - 1][y];
 
-        return newPixel;
+        return this.nextPixel;
     }
 
 
-    moveRight() {
-        const snake = this.snake;
-
-        let x = snake[0].x;
-        let y = snake[0].y;
+    lookRight() {
+        let x = this.head().x;
+        let y = this.head().y;
 
         if (y === 49) y = -1;
 
-        const newPixel = pixels[x][y + 1];
+        this.nextPixel = pixels[x][y + 1];
 
-        return newPixel;
+        return this.nextPixel;
     }
 
 
-    moveDown() {
-        const snake = this.snake;
-
-        let x = snake[0].x;
-        let y = snake[0].y;
+    lookDown() {
+        let x = this.head().x;
+        let y = this.head().y;
 
         if (x === 49) x = -1;
 
-        const newPixel = pixels[x + 1][y];
+        this.nextPixel = pixels[x + 1][y];
 
-        return newPixel;
+        return this.nextPixel;
     }
 
 
-    moveLeft() {
-        const snake = this.snake;
-
-        let x = snake[0].x;
-        let y = snake[0].y;
+    lookLeft() {
+        let x = this.head().x;
+        let y = this.head().y;
 
         if (y === 0) y = 50;
 
-        const newPixel = pixels[x][y - 1];
+        this.nextPixel = pixels[x][y - 1];
 
-        return newPixel;
+        return this.nextPixel;
     }
 
-    move(newPixel) {
-        const snake = this.snake;
+    move() {
 
-        snake.unshift(newPixel);
-        snake[0].addToSnake();
+        this.snake.unshift(this.nextPixel);
+        this.head().addToSnake();
 
-        if (!this.hasEaten) snake.pop().removeFromSnake();
-        this.hasEaten = false;
+        if (!this.hasEaten) {
+            this.snake.pop().removeFromSnake();
+            this.hasEaten = false;
+        }
     }
 
     eat() {
         this.hasEaten = true;
+        this.nextPixel.removeFood();
     }
 }

@@ -4,72 +4,105 @@ import { Snake } from './Snake.js';
 const playarea = document.getElementById('playarea');
 
 const pixels = [];
+
+let game;
+let snake;
 let direction = 'up';
+let difficulty = 75;
+let startingLength = 5;
 
 export { pixels };
+
+/* ------------------------------------------- */
+/* ------ FUNCTIONS -------------------------- */
+/* ------------------------------------------- */
+
+const getRandomPixel = () => {
+    const x = Math.floor(Math.random() * 50);
+    const y = Math.floor(Math.random() * 50);
+
+    return pixels[x][y];
+}
+
+const generateFood = () => {
+    const pixel = getRandomPixel();
+    pixel.addFood();
+}
+
+function gameOver() {
+    clearInterval(game);
+}
+
+function gameplay() {
+    let nextPixel;
+
+    switch (direction) {
+        case 'down':
+            nextPixel = snake.lookDown();
+            break;
+        case 'left':
+            nextPixel = snake.lookLeft();
+            break;
+        case 'right':
+            nextPixel = snake.lookRight();
+            break;
+        default:
+            nextPixel = snake.lookUp();
+    }
+
+    if (nextPixel.isFood()) {
+        snake.eat();
+        nextPixel.removeFood();
+        generateFood();
+    } else if (nextPixel.isSnake()) {
+        gameOver();
+    }
+
+    snake.move();
+}
+
+function startGame() {
+
+    clearInterval(game);
+
+    for (let row of pixels) {
+        for (let pixel of row) {
+            pixel.clearAll();
+        }
+    }
+
+    snake = null;
+    direction = 'up';
+
+    const head = getRandomPixel();
+    snake = new Snake(head);
+    snake.grow(startingLength);
+
+    generateFood();
+
+    game = setInterval(gameplay, difficulty)
+}
+
+/* ------------------------------------------- */
+/* ------ MAIN ------------------------------- */
+/* ------------------------------------------- */
+
 
 for (let i = 0; i < 50; i++) {
     pixels[i] = [];
     for (let j = 0; j < 50; j++) {
         const pixelEelement = document.createElement('div');
         pixelEelement.className = 'pixel';
+        playarea.appendChild(pixelEelement);
 
         const pixel = new Pixel(pixelEelement, i, j);
-        playarea.appendChild(pixelEelement);
 
         pixels[i][j] = pixel;
     }
 }
 
-const getRandomPixel = () => {
-    const x = Math.floor(Math.random() * 50);
-    const y = Math.floor(Math.random() * 50);
+startGame();
 
-    return {
-        x: x,
-        y: y
-    }
-}
-
-const generateFood = () => {
-    const pixel = getRandomPixel();
-
-    pixels[pixel.x][pixel.y].addFood();
-}
-
-const head = getRandomPixel();
-const snake = new Snake(head);
-
-generateFood();
-
-const game = setInterval(() => {
-
-    let newPixel;
-
-    switch (direction) {
-        case 'down':
-            newPixel = snake.moveDown();
-            break;
-        case 'left':
-            newPixel = snake.moveLeft();
-            break;
-        case 'right':
-            newPixel = snake.moveRight();
-            break;
-        default:
-            newPixel = snake.moveUp();
-    }
-
-    if (newPixel.isFood()) {
-        newPixel.removeFood();
-        snake.eat();
-        generateFood();
-    } else if (newPixel.isSnake()) {
-        clearInterval(game);
-    }
-
-    snake.move(newPixel);
-}, 75)
 
 window.addEventListener('keydown', (event) => {
 
@@ -90,5 +123,12 @@ window.addEventListener('keydown', (event) => {
             if (direction === 'right') break;
             direction = 'left';
             break;
+    }
+})
+
+window.addEventListener('keypress', (event) => {
+    if (event.key === ' ') {
+        gameOver();
+        startGame();
     }
 })
