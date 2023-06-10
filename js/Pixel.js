@@ -10,20 +10,24 @@ export class Pixel {
         this.y = y;
     }
 
-    isSnake() {
-        this.node.classList.add('active');
+    addToSnake() {
+        this.node.classList.add('snake');
     }
 
-    removeTail() {
-        this.node.classList.remove('active');
+    removeFromSnake() {
+        this.node.classList.remove('snake');
     }
 
     addFood() {
-        this.node.classList.add('food', 'active');
+        this.node.classList.add('food');
     }
 
     removeFood() {
         this.node.classList.remove('food');
+    }
+
+    isSnake() {
+        return this.node.classList.contains('snake');
     }
 
     isFood() {

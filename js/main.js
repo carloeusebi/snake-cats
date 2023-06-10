@@ -64,9 +64,11 @@ const game = setInterval(() => {
         newPixel.removeFood();
         snake.eat();
         generateFood();
+    } else if (newPixel.isSnake()) {
+        clearInterval(game);
     }
 
-
+    snake.move(newPixel);
 }, 75)
 
 window.addEventListener('keydown', (event) => {

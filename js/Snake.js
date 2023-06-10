@@ -8,7 +8,7 @@ export class Snake {
     constructor(newHead) {
 
         this.snake.push(pixels[newHead.x][newHead.y]);
-        this.snake[0].isSnake();
+        this.snake[0].addToSnake();
 
         // grow
         do {
@@ -20,7 +20,7 @@ export class Snake {
             if (y === 49) y = -1;
 
             this.snake.push(pixels[x + 1][y]);
-            snake.tail().isSnake();
+            snake.tail().addToSnake();
         } while (this.snake.length < 5);
     }
 
@@ -39,8 +39,6 @@ export class Snake {
 
         const newPixel = pixels[x - 1][y];
 
-        this.move(newPixel);
-
         return newPixel;
     }
 
@@ -54,8 +52,6 @@ export class Snake {
         if (y === 49) y = -1;
 
         const newPixel = pixels[x][y + 1];
-
-        this.move(newPixel);
 
         return newPixel;
     }
@@ -71,8 +67,6 @@ export class Snake {
 
         const newPixel = pixels[x + 1][y];
 
-        this.move(newPixel);
-
         return newPixel;
     }
 
@@ -87,8 +81,6 @@ export class Snake {
 
         const newPixel = pixels[x][y - 1];
 
-        this.move(newPixel);
-
         return newPixel;
     }
 
@@ -96,9 +88,9 @@ export class Snake {
         const snake = this.snake;
 
         snake.unshift(newPixel);
-        snake[0].isSnake();
+        snake[0].addToSnake();
 
-        if (!this.hasEaten) snake.pop().removeTail();
+        if (!this.hasEaten) snake.pop().removeFromSnake();
         this.hasEaten = false;
     }
 
