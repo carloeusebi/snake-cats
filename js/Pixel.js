@@ -20,10 +20,13 @@ export class Pixel {
 
     addFood() {
         this.node.classList.add('food');
+        const cat = Math.floor(Math.random() * 3);
+        this.node.innerHTML = `<img src="/img/${cat}.png" alt="food">`;
     }
 
     removeFood() {
         this.node.classList.remove('food');
+        this.node.innerHTML = ``;
     }
 
     isSnake() {
@@ -36,5 +39,6 @@ export class Pixel {
 
     clearAll() {
         this.node.className = 'pixel';
+        this.node.innerHTML = ``;
     }
 }

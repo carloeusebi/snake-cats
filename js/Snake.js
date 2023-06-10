@@ -91,8 +91,8 @@ export class Snake {
 
         if (!this.hasEaten) {
             this.snake.pop().removeFromSnake();
-            this.hasEaten = false;
         }
+        this.hasEaten = false;
     }
 
     eat() {
