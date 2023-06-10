@@ -86,8 +86,10 @@ export class Snake {
 
     move() {
 
+        this.head().removeHead();
         this.snake.unshift(this.nextPixel);
         this.head().addToSnake();
+        this.head().isHead();
 
         if (!this.hasEaten) {
             this.snake.pop().removeFromSnake();

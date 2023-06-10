@@ -20,8 +20,20 @@ export class Pixel {
 
     addFood() {
         this.node.classList.add('food');
-        const cat = Math.floor(Math.random() * 3);
-        this.node.innerHTML = `<img src="/img/${cat}.png" alt="food">`;
+        const rnd = Math.floor(Math.random() * 3);
+        let cat;
+        switch (rnd) {
+            case 0:
+                cat = 'summer';
+                break;
+            case 1:
+                cat = 'shazam';
+                break;
+            case 2:
+                cat = 'hiro';
+                break;
+        }
+        this.node.innerHTML = `<img src="/img/${cat}.png" alt="${cat}">`;
     }
 
     removeFood() {
@@ -40,5 +52,14 @@ export class Pixel {
     clearAll() {
         this.node.className = 'pixel';
         this.node.innerHTML = ``;
+    }
+
+    isHead() {
+        let player = 'carlo';
+        this.node.innerHTML = `<img src="/img/${player}.png" alt="${player}">`;
+    }
+
+    removeHead() {
+        this.node.innerHTML = '';
     }
 }

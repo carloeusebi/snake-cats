@@ -3,10 +3,31 @@ body {
 }
 
 main {
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+header {
+    width: 800px;
+    height: 75px;
+    margin: 20px auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header>* {
+    width: calc(100% /3);
+    text-align: center;
+}
+
+#select-player {
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    outline: none;
 }
 
 #playarea {
@@ -26,6 +47,8 @@ main {
 .pixel {
     width: 2%;
     height: 2%;
+    overflow: visible;
+    position: relative;
 }
 
 .pixel.snake {
@@ -39,5 +62,9 @@ main {
 }
 
 img {
-    max-width: 200%;
+    width: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
 }

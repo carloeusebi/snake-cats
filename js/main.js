@@ -2,12 +2,16 @@ import { Pixel } from './Pixel.js';
 import { Snake } from './Snake.js';
 
 const playarea = document.getElementById('playarea');
+const scoreDisplay = document.getElementById('score');
+const highScoreDisplay = document.getElementById('high-score');
 
 const pixels = [];
 
 let game;
 let snake;
 let direction = 'up';
+let currentScore = 0;
+let highScore = 0;
 let difficulty = 75;
 let startingLength = 5;
 
@@ -31,9 +35,18 @@ const generateFood = () => {
 
 function gameOver() {
     clearInterval(game);
+    currentScore = 0;
 }
 
 function gameplay() {
+    const updateScore = score => {
+        scoreDisplay.innerText = score;
+        if (score > highScore) {
+            highScore = score;
+            highScoreDisplay.innerText = score;
+        }
+    }
+
     let nextPixel;
 
     switch (direction) {
@@ -54,11 +67,13 @@ function gameplay() {
         snake.eat();
         nextPixel.removeFood();
         generateFood();
+        currentScore++;
     } else if (nextPixel.isSnake()) {
         gameOver();
     }
 
     snake.move();
+    updateScore(currentScore);
 }
 
 function startGame() {
