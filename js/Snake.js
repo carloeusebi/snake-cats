@@ -5,10 +5,12 @@ export class Snake {
     snake = [];
     hasEaten = false;
     nextPixel;
+    player;
 
-    constructor(head) {
+    constructor(head, player) {
         this.snake.push(pixels[head.x][head.y]);
         this.head().addToSnake();
+        this.player = player;
     }
 
 
@@ -89,7 +91,7 @@ export class Snake {
         this.head().removeHead();
         this.snake.unshift(this.nextPixel);
         this.head().addToSnake();
-        this.head().isHead();
+        this.head().isHead(this.player);
 
         if (!this.hasEaten) {
             this.snake.pop().removeFromSnake();

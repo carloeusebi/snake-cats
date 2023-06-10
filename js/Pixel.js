@@ -54,8 +54,7 @@ export class Pixel {
         this.node.innerHTML = ``;
     }
 
-    isHead() {
-        let player = 'carlo';
+    isHead(player) {
         this.node.innerHTML = `<img src="/img/${player}.png" alt="${player}">`;
     }
 

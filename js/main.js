@@ -4,9 +4,11 @@ import { Snake } from './Snake.js';
 const playarea = document.getElementById('playarea');
 const scoreDisplay = document.getElementById('score');
 const highScoreDisplay = document.getElementById('high-score');
+const playerSelector = document.getElementById('select-player');
 
 const pixels = [];
 
+let currentPlayer = 'carlo';
 let game;
 let snake;
 let direction = 'up';
@@ -90,7 +92,7 @@ function startGame() {
     direction = 'up';
 
     const head = getRandomPixel();
-    snake = new Snake(head);
+    snake = new Snake(head, currentPlayer);
     snake.grow(startingLength);
 
     generateFood();
@@ -146,4 +148,14 @@ window.addEventListener('keypress', (event) => {
         gameOver();
         startGame();
     }
+})
+
+playerSelector.addEventListener('change', () => {
+    currentPlayer = playerSelector.value.toLowerCase();
+    gameOver();
+    startGame();
+})
+
+playerSelector.addEventListener('keydown', (event) => {
+    event.preventDefault();
 })
