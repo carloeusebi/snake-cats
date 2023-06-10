@@ -6,6 +6,8 @@ const scoreDisplay = document.getElementById('score');
 const highScoreDisplay = document.getElementById('high-score');
 const playerSelector = document.getElementById('select-player');
 
+const meow = new Audio('./assets/meow.wav');
+
 const pixels = [];
 
 let currentPlayer = 'carlo';
@@ -44,8 +46,7 @@ function gameplay() {
     const updateScore = score => {
         scoreDisplay.innerText = score;
         if (score > highScore) {
-            highScore = score;
-            highScoreDisplay.innerText = score;
+            highScoreDisplay.innerText = highScore = score;
         }
     }
 
@@ -67,11 +68,12 @@ function gameplay() {
 
     if (nextPixel.isFood()) {
         snake.eat();
-        nextPixel.removeFood();
+        meow.play();
         generateFood();
         currentScore++;
     } else if (nextPixel.isSnake()) {
         gameOver();
+        return;
     }
 
     snake.move();
@@ -104,7 +106,7 @@ function startGame() {
 /* ------ MAIN ------------------------------- */
 /* ------------------------------------------- */
 
-
+// Generate the playarea only once on page load
 for (let i = 0; i < 50; i++) {
     pixels[i] = [];
     for (let j = 0; j < 50; j++) {
@@ -156,6 +158,7 @@ playerSelector.addEventListener('change', () => {
     startGame();
 })
 
+// to prevent player to accidentaly trigger player change and gameover while pressing arrow keys while selectbox is selected
 playerSelector.addEventListener('keydown', (event) => {
     event.preventDefault();
 })
