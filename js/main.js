@@ -33,7 +33,10 @@ const getRandomPixel = () => {
 }
 
 const generateFood = () => {
-    const pixel = getRandomPixel();
+    let pixel;
+    do {
+        pixel = getRandomPixel();
+    } while (pixel.isSnake());
     pixel.addFood();
 }
 
